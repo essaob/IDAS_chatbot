@@ -1,0 +1,70 @@
+Index: requirements.txt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-16LE
+===================================================================
+diff --git a/requirements.txt b/requirements.txt
+new file mode 100644
+--- /dev/null	(date 1721228715643)
++++ b/requirements.txt	(date 1721228715643)
+@@ -0,0 +1,6 @@
++asgiref==3.8.1
++Django==4.2.13
++pillow==10.4.0
++sqlparse==0.5.0
++typing_extensions==4.12.2
++tzdata==2024.1
+Index: Dockerfile
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/Dockerfile b/Dockerfile
+new file mode 100644
+--- /dev/null	(date 1721228940965)
++++ b/Dockerfile	(date 1721228940965)
+@@ -0,0 +1,43 @@
++# Use the official Python image from Docker Hub
++FROM python:3.10-slim
++
++# Set environment variables
++ENV PYTHONUNBUFFERED=1
++ENV PYTHONDONTWRITEBYTECODE=1
++
++# Set working directory in the container
++WORKDIR /code
++
++# Install dependencies
++COPY requirements.txt /code/
++RUN pip install --no-cache-dir -r requirements.txt
++
++# Copy the rest of your application code
++COPY . /code/
++
++# Command to run your application
++CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
++# Use the official Python image from the Docker Hub with version 3.10.11
++FROM python:3.10.11-slim
++
++# Set the working directory in the container
++WORKDIR /app
++
++# Copy the requirements file into the container
++COPY requirements.txt /app/
++
++# Install the Python dependencies
++RUN pip install --no-cache-dir -r requirements.txt
++
++# Copy the rest of the application code into the container
++COPY . /app/
++
++# Set environment variables
++ENV PYTHONDONTWRITEBYTECODE 1
++ENV PYTHONUNBUFFERED 1
++
++# Expose the port on which the app will run
++EXPOSE 8000
++
++# Run the Django development server
++CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
+\ No newline at end of file
